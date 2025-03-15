@@ -1,5 +1,7 @@
 package org.jttp;
 
+import org.jttp.http3.Http3;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -31,5 +33,15 @@ public final class Jttp {
 
     public static final byte[] newConnectionId() {
         return newConnectionId(new Random());
+    }
+
+    public static final Connection connection(String serverName, byte[] connId, Config config) throws ConnectionFailurException {
+        final long ptr = Native.jhttp_connect(serverName, connId, config.getPointer());
+
+        if (ptr <= Http3.ErrorCode.SUCCESS) {
+            throw new ConnectionFailureException(ptr);
+        }
+
+        return Connection.newInstance(ptr);
     }
 }
