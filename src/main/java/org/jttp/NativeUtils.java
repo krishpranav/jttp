@@ -31,7 +31,7 @@ public final class NativeUtils {
                 final String libfile = Utils.copyFileFromJAR("libs", nativeLibraryFilepath);
                 System.load(libfile);
             } catch (IOException e) {
-                
+
             }
         }
     }
